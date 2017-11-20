@@ -18,24 +18,7 @@ var routes = function(AppUser,Contact){
             else{
                 console.log("trying to find if app user exists");
 
-                var user = new AppUser({email : req.body.user_email});
                 
-                // try to save the user, if user doesn't get saved return error, else return user id
-                user.save(function(err){
-                    if(!err){
-                        res.status(200);
-                        res.json({
-                            user_id : user._id
-                        });
-                    }
-                    else{
-                        console.log(err);
-                        res.status(400);
-                        res.send("Error in saving user");
-                    }
-                })
-
-                /*
                 // find if the user already exists or not
                 AppUser.find({
                     email : req.body.user_email
@@ -53,6 +36,7 @@ var routes = function(AppUser,Contact){
                         // try to save the user, if user doesn't get saved return error, else return user id
                         user.save(function(err){
                             if(!err){
+                                console.log("User created",user._id);
                                 res.status(200);
                                 res.json({
                                     user_id : user._id
@@ -67,8 +51,9 @@ var routes = function(AppUser,Contact){
                     }
                     else if(users.length == 1){
                         // user already exists, send back user._id
+
                         var user = users[0];
-                        console.log(user);
+                        console.log("user already exists",user);
                         res.status(200);
                         res.send(user._id);
                     }
@@ -78,7 +63,7 @@ var routes = function(AppUser,Contact){
                         res.send("Too many results, check db");
                     }
                 })
-                /** */
+                
             }
         });
 

@@ -3,7 +3,7 @@ var express = require('express'),
     mongoose = require('mongoose'),
     cors = require('cors'),
     q = require('q'),
-    config = require('./config/config'),
+    //config = require('./config/config'),
     bodyParser = require('body-parser');
 
 var app = express();

@@ -53,10 +53,10 @@ var routes = function(Contact){
     .get(function(req, res){
 
         // get all contacts and return
-        Contact.find(null,function(err, people){
+        Contact.find(null,function(err, contacts){
             if(!err){
                 res.status(200);
-                res.json(people);
+                res.json(contacts);
             }
             else{
                 console.log(err);

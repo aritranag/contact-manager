@@ -38,9 +38,7 @@ var routes = function(AppUser,Contact){
                             if(!err){
                                 console.log("User created",user._id);
                                 res.status(200);
-                                res.json({
-                                    user_id : user._id
-                                });
+                                res.send(user._id);
                             }
                             else{
                                 console.log(err);

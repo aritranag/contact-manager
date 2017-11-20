@@ -10,7 +10,9 @@ var Phone = new Schema({
 	}
 });
 
-var User = new Schema({
+// user_id refers to the id of the user who saved this contact
+var Contact = new Schema({
+	user_id : String,
 	name : String,
 	mobile : Number,
 	mobile_type : {
@@ -19,9 +21,7 @@ var User = new Schema({
 	},
 	other_phone : [Phone],
 	email : {
-		type : String,
-		index : true,
-		unique : true
+		type : String
 	},
 	email_type : {
 		type : String,
@@ -33,7 +33,7 @@ var User = new Schema({
         type : Date,
         default : Date.now
     }
-},{strict : true});
+});
 
 
-module.exports = mongoose.model('Person',User);
+module.exports = mongoose.model('Contact',Contact);

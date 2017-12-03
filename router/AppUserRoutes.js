@@ -4,6 +4,7 @@ var routes = function(AppUser,Contact){
 
     var AppUserRouter = express.Router();
 
+    /* ---------------------------- NEW USER ROUTES -------------------------- */
     // POST route to create a new user
     AppUserRouter.route('/new_user')
         .post(function(req, res){
@@ -13,7 +14,7 @@ var routes = function(AppUser,Contact){
             if(!req.body.user_email){
                 // if no email id is present then return error
                 res.status(400);
-                res.send("Invalid email address");
+                res.send("email address or password not provided");
             }
             else{
                 console.log("trying to find if app user exists");
@@ -31,7 +32,10 @@ var routes = function(AppUser,Contact){
                     else if(users.length == 0){
                         console.log("No user exists, creating new");
                         // no email id exists for this user; create the user, save it and return the _id
-                        var user = new AppUser({email : req.body.user_email});
+                        var user = new AppUser({
+                            email : req.body.user_email,
+                            password : req.body.password
+                        });
 
                         // try to save the user, if user doesn't get saved return error, else return user id
                         user.save(function(err){

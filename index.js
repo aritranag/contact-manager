@@ -17,7 +17,7 @@ var mongoose_connection_options = {
 };
 
 
-//var db = mongoose.connect("mongodb://localhost/ConQR",mongoose_connection_options);
+var db = mongoose.connect("mongodb://localhost/ConQR",mongoose_connection_options);
 
 var mongodbUri = "mongodb://"+process.env.DB_USERNAME+":"+process.env.DB_PASSWORD+"@ds111754.mlab.com:11754/conqr";
 

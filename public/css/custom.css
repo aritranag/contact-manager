@@ -1,0 +1,36 @@
+/* ----------- COLOR VARIABLES ------------------ */
+/* ----------- DESKTOP HEADER STYLES ------------------ */
+.header-background {
+  background: #1ab394; }
+  .header-background .navbar-top-links > li > a {
+    color: #fff; }
+
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+  color: #555;
+  cursor: default;
+  background-color: #fff;
+  border: 1px solid #fff;
+  border-bottom-color: transparent; }
+
+.customer-open-orders .ibox {
+  margin-bottom: 0px; }
+.customer-open-orders .ibox-title {
+  border-style: none; }
+
+/* --------------------- VENDOR PAGE STYLES ------------------------ */
+.text-center-imp {
+  text-align: center !important; }
+
+.text-left-imp {
+  text-align: left !important; }
+
+.order-tab {
+  background: white !important; }
+
+@media only screen and (max-width: 32em) {
+  h3 {
+    font-size: 14px; } }
+.m-t-lg {
+  margin-top: 45px; }
+
+/*# sourceMappingURL=custom.css.map */

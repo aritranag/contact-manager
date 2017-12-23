@@ -8,7 +8,8 @@ var order_details = new Schema({
     expected_date : {
         type : Date,
         default : Date.now
-    }
+    },
+    comments : String
 });
 
 var order_update = new Schema({
@@ -23,7 +24,7 @@ var order_update = new Schema({
     },
     status : String,
     updated_by : String,
-    Comment : String
+    comments : String
 });
 
 var Order = new Schema({

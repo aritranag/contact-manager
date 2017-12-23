@@ -20,28 +20,33 @@ var routes = function(Vendor,Order){
                 // try to find the vendor
                 Vendor.findOne({
                     username : req.body.username
-                },function(err, user){
+                },function(err, vendor){
                     if(err){
                         console.log("login error for Vendor",err);
                         res.status(400);
                         res.send("Invalid username or password");
                     }
+                    else if(vendor == null){
+                        console.log("Vendor doesn't exist");
+                        res.status(400);
+                        res.send("Invalid username or password");
+                    }
                     else{
                         // check password, if match send the username, name and email back
-                        if(user.password == req.body.password){
-                            console.log("authenticated",user.username);
+                        if(vendor.password == req.body.password){
+                            console.log("authenticated",vendor.username);
                             res.status(200);
                             res.json({
-                                name : user.name,
-                                username : user.username,
-                                email : user.email,
-                                vendorId : user._id
+                                name : vendor.name,
+                                username : vendor.username,
+                                email : vendor.email,
+                                vendorId : vendor._id
                             });
                         }
                         else{
                             console.log("username/password does not match");
                             res.status(401);
-                            res.send("Username or password doesn't match");
+                            res.send("Invalid username or password");
                         }
                     }
                 })
@@ -75,7 +80,7 @@ var routes = function(Vendor,Order){
 
     // ==================================== ORDERS ROUTE ========================================= //
 
-    /* To be created
+    // params => vendorId
     VendorRouter.route('/orders/quoted')
         .get(function(req, res){
             
@@ -96,8 +101,33 @@ var routes = function(Vendor,Order){
             }
             
         });
-    /** */
+    
+    // ==================================== OPEN ORDERS FOR VENDOR PERUSAL ========================================= //
 
+    VendorRouter.route('/orders/open')
+        .get(function(req, res){
+            
+            // check if the vendor id is supplied or not
+            if(req.query.vendorId){
+                
+                //get the orders via the controller function
+                vendorController.getQuotedOrders(Vendor,Order,req.query).then(function(orders){
+                    console.log("quoted orders returned for the vendor",req.query.vendorId);
+                    return vendorController.getOpenOrders(Order,orders);
+                })
+                .then(function(orders){
+                    console.log("open orders returned for the vendor",req.query.vendorId);
+                    res.status(200);
+                    res.json(orders);
+                })
+                .catch(function(err){
+                    console.log(err);
+                    res.status(400);
+                    res.send("Error in getting quoted orders the vendor");
+                });
+            }
+
+        });
 
     return VendorRouter;
 

@@ -71,3 +71,4 @@ function getOpenOrders(Customer,Order,reqObj){
 
 
 /* ---------------------------- OTHER FUNCTIONS (specific to customer) --------------------------------- */
+

@@ -1,0 +1,208 @@
+<div ng-controller="CustomerCtrl">
+    <div ng-include="'views/common/top_navigation.html'"></div>
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-lg-11"></div>
+            <div class="col-lg-1">
+                <a href="" ng-click="$state.transitionTo('index.vendor')">Vendor</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="text-center">
+                    <uib-tabset>
+                        <uib-tab>
+                            <uib-tab-heading active>
+                                <span ng-click="changeTabHeading(1)">Your Open Orders</span>
+                            </uib-tab-heading>
+                            <div>
+                                <div class="ibox float-e-margins header-ibox">
+                                    <div class="ibox-title">
+                                        <div class="row">
+                                            <div class="col-lg-2 col-xs-3">
+                                                <h3>Name</h3>
+                                            </div>
+                                            <div class="col-lg-2 col-xs-2 hidden-xs">
+                                                <h3>Quantity</h3>
+                                            </div>
+                                            <div class="col-lg-2 col-xs-3">
+                                                <h3>Document</h3>
+                                                
+                                            </div>
+                                            <div class="col-lg-2 col-xs-3">
+                                                <h3>Date</h3>
+                                                
+                                            </div>
+                                            <div class="col-lg-3 col-xs-3">
+                                                <h3>Vendor Bid</h3>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="ibox-content customer-open-orders" ng-repeat="order in openOrders">
+                                        <div class="ibox collapsed float-e-margins">
+                                            <div class="ibox-title">
+                                                <div class="col-lg-2 col-xs-3">{{order.name}}</div>
+                                                <div class="col-lg-2 col-xs-2 hidden-xs">{{ order.description.quantity}}</div>
+                                                <div class="col-lg-2 col-xs-3">
+                                                    <a ng-href="{{order.description.document}}" download="order_details">
+                                                        Document
+                                                    </a>
+                                                </div>
+                                                <div class="col-lg-2 col-xs-3">
+                                                    {{ order.description.expected_date | date }}
+                                                </div>
+                                                <div class="col-lg-3 col-xs-2">
+                                                    {{ order.work_info.length }}
+                                                </div>
+                                                <div class="col-lg-1 col-xs-1">
+                                                    <div ibox-tools-order></div>
+                                                </div>
+                                            </div>
+                                            <div class="ibox-content order-details">
+                                                <div ng-repeat="bid in order.work_info">
+                                                    <div class="row">
+                                                        <div class="col-lg-3">
+                                                            <div class="row">
+                                                                <div class="col-sm-12 text-center"><b>Vendor Quote : </b>{{ bid.quote }}</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-3">
+                                                            <div class="row">
+                                                                <div class="col-sm-12 text-center">
+                                                                    <strong>Comments : </strong>{{ bid.comments }}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-3">
+                                                            <div class="row">
+                                                                <div class="col-sm-12 text-center">
+                                                                    <strong>Delivery By : </strong>{{ bid.expected_date | date }}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-3">
+                                                            <div class="col-sm-6">
+                                                                <button class="btn btn-primary">Accept</button>
+                                                            </div>
+                                                            <div class="col-sm-6">
+                                                                <button class="btn btn-danger">Reject</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <hr ng-if="$index != (order.work_info.length - 1)">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </uib-tab>
+                        <uib-tab>
+                            <uib-tab-heading>
+                                <span ng-click="changeTabHeading(1)">Final Orders</span>
+                            </uib-tab-heading>
+                            <div>
+                                <div class="ibox collapsed float-e-margins header-ibox">
+                                    <div class="ibox-title">
+                                        <div class="row">
+                                            <div class="col-lg-2">
+                                                <h2>Name</h2>
+                                            </div>
+                                            <div class="col-lg-2">
+                                                <h2>Quantity</h2>
+                                            </div>
+                                            <div class="col-lg-2">
+                                                <h2>Document</h2>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <h2>Expected Date</h2>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <h2>Final Quote</h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div ng-repeat="order in finalOrders">
+                                    <div class="ibox float-e-margins">
+                                        <div class="ibox-title">
+                                            <div class="col-lg-2">{{order.name}}</div>
+                                            <div class="col-lg-2">{{ order.description.quantity}}</div>
+                                            <div class="col-lg-2">
+                                                <a href="data/{{order.document}}">
+                                                    Document
+                                                </a>
+                                            </div>
+                                            <div class="col-lg-2">
+                                                {{ order.description.expected_date }}
+                                            </div>
+                                            <div class="col-lg-2">
+                                                {{ order.work_info.length }}
+                                            </div>
+                                            <div class="col-lg-2">
+                                                <div ibox-tools-order></div>
+                                            </div>
+                                        </div>
+                                        <div class="ibox-content">
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </uib-tab>
+                    </uib-tabset>
+                </div>
+            </div>
+            <div class="col-lg-4 m-t-lg">
+                <div class="ibox">
+                    <div class="ibox-title">
+                        <h2 class="text-center"><strong>New Order</strong></h2>
+                    </div>
+                    <div class="ibox-content order-details">
+                        <form class="form-horizontal" name="orderForm">
+                            <div class="form-group">
+                                <label for="order-name" class="col-sm-3 control-label">Order Name</label>
+                                <div class="col-sm-9">
+                                    <input id="order-name" type="text"  class="form-control" ng-model="order.name" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="order-quantity" class="col-sm-3 control-label">Order Quantity</label>
+                                <div class="col-sm-9">
+                                    <input id="order-quantity" type="number"  class="form-control" ng-model="order.quantity" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="order-document" class="col-sm-3 control-label">Order Document</label>
+                                <div class="col-sm-9">
+                                    <button class="btn btn-sm btn-default" ngf-select ng-model="order.document">Upload</button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="delivery-date" class="col-sm-3 control-label">Expected Delivery</label>
+                                <div class="col-sm-9">
+                                    <input id="delivery-date" type="date"  class="form-control" ng-model="order.expectedDate">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="comments" class="col-sm-3 control-label">Comments</label>
+                                <div class="col-sm-9">
+                                    <textarea id="comments" class="form-control" ng-model="order.comments"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="error" ng-if="showError" class="col-sm-12 text-danger">{{ errorMsg }}</label>
+                            </div>
+                            <div class="form-group text-center">
+                                <button class="btn btn-sm btn-primary text-center" ng-click="createNewOrder()">
+                                    <strong>Submit</strong>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

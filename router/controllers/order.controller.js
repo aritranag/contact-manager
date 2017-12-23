@@ -44,7 +44,7 @@ function createNewOrder(Order,Customer,reqObj){
             .catch(function(err){
                 reject(err);
             })
-
+            
         }
         else{
             reject("Invalid params");
@@ -103,15 +103,16 @@ function updateOrderWorkinfo(Order,Vendor,reqObj){
 }
 
 
+
 //=============================== UTILITY FUNCTIONS =====================================//
 
 // check whether customer_id and order details are supplied or not
 function checkOrderDetails(reqObj){
 
     var flag = true;
-    if(!reqObj.customerId || !reqObj.description.quantity || !reqObj.description.document){
+    /*if(!reqObj.customerId || !reqObj.description.quantity || !reqObj.description.document){
         flag = false;
-    }
+    }/** */
     return flag;
 }
 
@@ -134,7 +135,7 @@ function createActualOrder(Order,reqObj){
         var order_details = {
             quantity : reqObj.description.quantity,
             document : reqObj.description.document,
-            expexted_date : reqObj.description.expexted_date || null
+            expected_date : reqObj.description.expected_date || null
         };
 
         // create the new order
@@ -166,8 +167,9 @@ function updateOrder(Order,reqObj,vendorId){
         var order_update = {
             quote : reqObj.order_quote,
             status : 'NA',
+            expected_date : reqObj.expected_date || new Date(),
             updated_by : vendorId,
-            comment : reqObj.comment || "None" 
+            comments : reqObj.comments || "None" 
         };
 
         Order.findById(reqObj.orderId,function(err, order){

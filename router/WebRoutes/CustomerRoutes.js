@@ -26,7 +26,13 @@ var routes = function(Customer,Order){
                         res.status(400);
                         res.send("Invalid username or password");
                     }
+                    else if(user == null){
+                        console.log("Customer doesn't exist");
+                        res.status(400);
+                        res.send("Invalid username or password");
+                    }
                     else{
+                        console.log(user == null);
                         // check password, if match send the username, name and email back
                         if(user.password == req.body.password){
                             console.log("authenticated",user.username);

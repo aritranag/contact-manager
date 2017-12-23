@@ -1,14 +1,39 @@
 var express = require('express'),
-    orderController = require('../controllers/order.controller');
+    multer = require('multer'),
+    orderController = require('../controllers/order.controller'),
+    path = require('path'),
+    uuidv1 = require('uuid/v1'),
+    fs = require('fs');
+
+var uploadPath = path.join(__dirname + '/../../public/data/');
+
+var diskStorage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, uploadPath)
+    },
+    filename: function (req, file, cb) {
+        cb(null,  Date.now() + '-' + file.originalname)
+    }
+});
+
+var upload = multer({
+    storage : diskStorage
+})
 
 var routes = function(Order,Customer,Vendor){
 
     var OrderRouter = express.Router();
     
     // ==================================== NEW ORDER ========================================= //
+
+
     OrderRouter.route('/new')
-        .post(function(req, res){
+        .post(upload.single('document'),function(req, res, next){
             
+            next();
+        },function(req, res){
+
+            req.body.description.document = "/data/" + req.file.filename;
             orderController.createNewOrder(Order,Customer,req.body).then(function(order){
                 console.log("Order is created");
                 res.status(200);
@@ -19,6 +44,7 @@ var routes = function(Order,Customer,Vendor){
                 res.status(400);
                 res.send("order not created");
             });
+            /** */
 
         });
     
@@ -37,6 +63,8 @@ var routes = function(Order,Customer,Vendor){
                 res.send("order not updated");
             });
         });
+    
+    
     
     return OrderRouter;
 }

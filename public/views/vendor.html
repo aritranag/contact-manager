@@ -1,0 +1,161 @@
+<div ng-controller="VendorCtrl">
+    <div ng-include="'views/common/top_navigation.html'"></div>
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-lg-11"></div>
+            <div class="col-lg-1">
+                <a href="" ng-click="$state.transitionTo('index.customer')">Customer</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="text-center">
+                    <uib-tabset  active="active">
+                        <uib-tab index="0" heading="Quoted Orders">
+                            <div>
+                                <div class="ibox float-e-margins header-ibox">
+                                    <div class="ibox-title">
+                                        <div class="row">
+                                            <div class="col-lg-2">
+                                                <h2>Name</h2>
+                                            </div>
+                                            <div class="col-lg-2">
+                                                <h2>Document</h2>
+                                            </div>
+                                            <div class="col-lg-2">
+                                                <h2>Date</h2>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <h2>Your Bid</h2>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <h2>Status</h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="ibox-content" ng-repeat="order in quotedOrders">
+                                        <div class="row open-orders-vendor">
+                                            <div class="col-lg-2">{{order.name}}</div>
+                                            <div class="col-lg-2">
+                                                <a href="data/{{order.document}}">
+                                                    Document
+                                                </a>
+                                            </div>
+                                            <div class="col-lg-2">
+                                                {{ order.description.expected_date | date }}
+                                            </div>
+                                            <div class="col-lg-3">
+                                                {{ order.workInfo[0].quote }}
+                                            </div>
+                                            <div class="col-lg-3">
+                                                {{ order.workInfo[0].status == 'NA' ? 'Pending' : order.work_info[0].status }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </uib-tab>
+                        <uib-tab index="1">
+                            <uib-tab-heading>
+                                <span ng-click="changeTab(2)">Open Orders</span>
+                            </uib-tab-heading>
+                            <div>
+                                <div class="ibox float-e-margins header-ibox">
+                                    <div class="ibox-title">
+                                        <div class="row">
+                                            <div class="col-lg-2">
+                                                <h2>Name</h2>
+                                            </div>
+                                            <div class="col-lg-2">
+                                                <h2>Quantity</h2>
+                                            </div>
+                                            <div class="col-lg-2">
+                                                <h2>Document</h2>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <h2>Expected Date</h2>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="ibox-content" ng-repeat="order in openOrders">
+                                        <div class="row open-orders-vendor">
+                                            <div class="col-lg-2">{{order.name}}</div>
+                                            <div class="col-lg-2">{{ order.description.quantity}}</div>
+                                            <div class="col-lg-2">
+                                                <a ng-href="{{order.description.document}}" download="order_details">
+                                                    Document
+                                                </a>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                {{ order.description.expected_date | date }}
+                                            </div>
+                                            <div class="col-lg-2">
+                                                <button class="btn btn-sm btn-primary" ng-click="showBidWindow(order)">Place Bid</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </uib-tab>
+                    </uib-tabset>
+                </div>
+            </div>
+            <div class="col-lg-4 m-t-lg" ng-if="showOrderUpdateWindow">
+                <div class="spacer"></div>
+                <div class="ibox">
+                    <div class="ibox-title">
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <h2 class="text-center"><strong>Vendor Bid</strong></h2>
+                            </div>
+                            <div class="col-sm-2">
+                                <a class="pull-right" ng-click="closeBox()">
+                                    <i class="fa fa-times pull-right" ></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ibox-content order-details">
+                        <form class="form-horizontal" name="orderForm">
+                            <div class="form-group">
+                                <label for="order-name" class="col-sm-5 control-label">Order Name</label>
+                                <label for="" class="col-sm-7 control-label text-left-imp">{{ selectedOrder.name }}</label>
+                            </div>
+                            <div class="form-group">
+                                <label for="order-quantity" class="col-sm-5 control-label">Your Bid</label>
+                                <div class="col-sm-7">
+                                    <input id="order-quantity" type="number"  class="form-control" ng-model="selectedOrder.order_quote" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="order-name" class="col-sm-5 control-label">Expected Delivery Date</label>
+                                <label for="" class="col-sm-7 control-label text-left-imp">{{ selectedOrder.description.expected_date | date }}</label>
+                            </div>
+                            <div class="form-group">
+                                <label for="delivery-date" class="col-sm-5 control-label">Delivery By</label>
+                                <div class="col-sm-7">
+                                    <input id="delivery-date" type="date"  class="form-control" ng-model="selectedOrder.expected_date" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="comments" class="col-sm-5 control-label">Comments</label>
+                                <div class="col-sm-7">
+                                    <textarea id="comments" class="form-control" ng-model="selectedOrder.vendor_comments"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="error" ng-if="showError" class="col-sm-12 text-center text-danger">{{ errorMsg }}</label>
+                            </div>
+                            <div class="form-group text-center">
+                                <button class="btn btn-sm btn-primary text-center" ng-click="submitVendorBid()">
+                                    <strong>Submit</strong>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 
